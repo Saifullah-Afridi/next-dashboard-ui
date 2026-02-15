@@ -1,4 +1,5 @@
 import Image from "next/image";
+import ThemeSwitcher from "./ThemeSwitcher";
 
 const Navbar = () => {
   return (
@@ -20,6 +21,7 @@ const Navbar = () => {
       </div>
       {/* ICONS AND USER */}
       <div className="flex items-center gap-3 md:gap-5 justify-end">
+        <ThemeSwitcher />
         <div className="bg-gradient-to-br from-blue-50 to-blue-100 hover:from-blue-100 hover:to-blue-200 rounded-full w-10 h-10 flex items-center justify-center cursor-pointer transition-all duration-200 hover:scale-110 shadow-sm">
           <Image src="/message.png" alt="" width={20} height={20} />
         </div>

@@ -1,5 +1,6 @@
 import { AppSidebar } from "@/components/AppSidebar";
 import Navbar from "@/components/Navbar";
+import AdvancedThemeCustomizer from "@/components/AdvancedThemeCustomizer";
 import {
   SidebarInset,
   SidebarProvider,
@@ -21,9 +22,10 @@ export default function DashboardLayout({
             <Navbar />
           </div>
         </div>
-        <main className="flex-1 bg-gradient-to-br from-gray-50 via-blue-50/30 to-purple-50/30 p-4 md:p-6 overflow-auto min-h-screen">
+        <main className="flex-1 bg-dashboard-bg p-4 md:p-6 overflow-auto min-h-screen">
           <div className="max-w-[1600px] mx-auto">{children}</div>
         </main>
+        <AdvancedThemeCustomizer />
       </SidebarInset>
     </SidebarProvider>
   );

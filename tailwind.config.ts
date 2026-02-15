@@ -52,6 +52,37 @@ const config = {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        // Brand colors
+        brand: {
+          primary: "hsl(var(--brand-primary))",
+          secondary: "hsl(var(--brand-secondary))",
+          accent: "hsl(var(--brand-accent))",
+        },
+        // Dashboard colors
+        dashboard: {
+          bg: "hsl(var(--dashboard-bg))",
+          card: "hsl(var(--dashboard-card))",
+          hover: "hsl(var(--dashboard-hover))",
+        },
+        // User card colors
+        "card-student": "hsl(var(--card-student))",
+        "card-teacher": "hsl(var(--card-teacher))",
+        "card-parent": "hsl(var(--card-parent))",
+        "card-staff": "hsl(var(--card-staff))",
+        // Status colors
+        success: "hsl(var(--success))",
+        warning: "hsl(var(--warning))",
+        error: "hsl(var(--error))",
+        info: "hsl(var(--info))",
+        // Chart colors
+        chart: {
+          1: "hsl(var(--chart-1))",
+          2: "hsl(var(--chart-2))",
+          3: "hsl(var(--chart-3))",
+          4: "hsl(var(--chart-4))",
+          5: "hsl(var(--chart-5))",
+        },
+        // Legacy colors (for backward compatibility)
         lamaSky: "#C3EBFA",
         lamaSkyLight: "#EDF9FD",
         lamaPurple: "#CFCEFF",
