@@ -48,8 +48,8 @@ const StudentForm = ({
 
   return (
     <form className="flex flex-col gap-8" onSubmit={onSubmit}>
-      <h1 className="text-xl font-semibold">Create a new student</h1>
-      <span className="text-xs text-gray-400 font-medium">
+      <h1 className="text-2xl font-bold text-gray-800">Create a new student</h1>
+      <span className="text-sm text-gray-600 font-semibold uppercase tracking-wide">
         Authentication Information
       </span>
       <div className="flex justify-between flex-wrap gap-4">
@@ -155,7 +155,7 @@ const StudentForm = ({
           )}
         </div>
       </div>
-      <button className="bg-blue-400 text-white p-2 rounded-md">
+      <button className="bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 text-white p-3 rounded-lg font-semibold shadow-md hover:shadow-lg transition-all duration-200 mt-4">
         {type === "create" ? "Create" : "Update"}
       </button>
     </form>

@@ -42,28 +42,43 @@ const data = [
 
 const AttendanceChart = () => {
   return (
-    <div className="bg-white rounded-lg p-4 h-full">
-      <div className="flex justify-between items-center">
-        <h1 className="text-lg font-semibold">Attendance</h1>
-        <Image src="/moreDark.png" alt="" width={20} height={20} />
+    <div className="bg-white rounded-2xl p-6 h-full shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-300">
+      <div className="flex justify-between items-center mb-4">
+        <h1 className="text-lg font-bold text-gray-800">Attendance</h1>
+        <div className="cursor-pointer hover:bg-gray-100 p-2 rounded-lg transition-colors">
+          <Image src="/moreDark.png" alt="" width={20} height={20} />
+        </div>
       </div>
       <ResponsiveContainer width="100%" height="90%">
         <BarChart width={500} height={300} data={data} barSize={20}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#ddd" />
+          <CartesianGrid
+            strokeDasharray="3 3"
+            vertical={false}
+            stroke="#e5e7eb"
+          />
           <XAxis
             dataKey="name"
             axisLine={false}
-            tick={{ fill: "#d1d5db" }}
+            tick={{ fill: "#9ca3af", fontSize: 12, fontWeight: 500 }}
             tickLine={false}
           />
-          <YAxis axisLine={false} tick={{ fill: "#d1d5db" }} tickLine={false} />
+          <YAxis
+            axisLine={false}
+            tick={{ fill: "#9ca3af", fontSize: 12 }}
+            tickLine={false}
+          />
           <Tooltip
-            contentStyle={{ borderRadius: "10px", borderColor: "lightgray" }}
+            contentStyle={{
+              borderRadius: "12px",
+              borderColor: "#e5e7eb",
+              boxShadow: "0 4px 6px -1px rgb(0 0 0 / 0.1)",
+            }}
           />
           <Legend
             align="left"
             verticalAlign="top"
-            wrapperStyle={{ paddingTop: "20px", paddingBottom: "40px" }}
+            wrapperStyle={{ paddingTop: "10px", paddingBottom: "30px" }}
+            iconType="circle"
           />
           <Bar
             dataKey="present"

@@ -21,16 +21,18 @@ const InputField = ({
 }: InputFieldProps) => {
   return (
     <div className="flex flex-col gap-2 w-full md:w-1/4">
-      <label className="text-xs text-gray-500">{label}</label>
+      <label className="text-sm text-gray-700 font-medium">{label}</label>
       <input
         type={type}
         {...register(name)}
-        className="ring-[1.5px] ring-gray-300 p-2 rounded-md text-sm w-full"
+        className="ring-2 ring-gray-200 focus:ring-blue-400 p-3 rounded-lg text-sm w-full transition-all duration-200 outline-none hover:ring-gray-300"
         {...inputProps}
         defaultValue={defaultValue}
       />
       {error?.message && (
-        <p className="text-xs text-red-400">{error.message.toString()}</p>
+        <p className="text-xs text-red-500 font-medium">
+          {error.message.toString()}
+        </p>
       )}
     </div>
   );

@@ -35,16 +35,18 @@ const EventCalendar = () => {
   const [value, onChange] = useState<Value>(new Date());
 
   return (
-    <div className="bg-white p-4 rounded-md">
+    <div className="bg-white p-6 rounded-2xl shadow-sm border border-gray-100">
       <Calendar onChange={onChange} value={value} />
-      <div className="flex items-center justify-between">
-        <h1 className="text-xl font-semibold my-4">Events</h1>
-        <Image src="/moreDark.png" alt="" width={20} height={20} />
+      <div className="flex items-center justify-between mt-6 mb-4">
+        <h1 className="text-xl font-bold text-gray-800">Events</h1>
+        <div className="cursor-pointer hover:bg-gray-100 p-2 rounded-lg transition-colors">
+          <Image src="/moreDark.png" alt="" width={20} height={20} />
+        </div>
       </div>
-      <div className="flex flex-col gap-4">
+      <div className="flex flex-col gap-3">
         {events.map((event) => (
           <div
-            className="p-5 rounded-md border-2 border-gray-100 border-t-4 odd:border-t-lamaSky even:border-t-lamaPurple"
+            className="p-4 rounded-xl border-2 border-gray-100 border-l-4 odd:border-l-blue-400 even:border-l-purple-400 hover:shadow-md transition-all duration-200 cursor-pointer bg-gradient-to-r odd:from-blue-50/30 even:from-purple-50/30 to-transparent"
             key={event.id}
           >
             <div className="flex items-center justify-between">
