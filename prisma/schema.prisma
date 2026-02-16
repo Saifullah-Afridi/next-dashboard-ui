@@ -130,7 +130,6 @@ model Class {
   @@map("classes")
 }
 
-// Subject Model
 model Subject {
   id          String   @id @default(uuid())
   name        String   @unique
@@ -141,7 +140,6 @@ model Subject {
   teachers    TeacherSubject[]
   lessons     Lesson[]
 
-  @@map("subjects")
 }
 
 // Teacher-Subject Relation (Many-to-Many)
@@ -154,7 +152,6 @@ model TeacherSubject {
   assignedAt DateTime @default(now())
 
   @@unique([teacherId, subjectId])
-  @@map("teacher_subjects")
 }
 
 // Lesson Model
