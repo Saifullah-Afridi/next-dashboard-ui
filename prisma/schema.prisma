@@ -1,0 +1,255 @@
+// This is your Prisma schema file
+// Learn more: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// Base User Model (for authentication)
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  phone     String?
+  address   String?
+  role      Role     @default(STUDENT)
+  gender  Gender @default(MALE)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  imageUrl String?
+
+  admin   Admin?
+  teacher Teacher?
+  student Student?
+  parent  Parent?
+
+  
+}
+
+enum Gender {
+  MALE
+  FEMALE
+}
+
+enum Role {
+  ADMIN
+  TEACHER
+  STUDENT
+  PARENT
+}
+
+// Admin Model
+model Admin {
+  id     String @id @default(uuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+}
+
+// Teacher Model
+model Teacher {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  specialization  String?
+  dateOfJoining   DateTime @default(now())
+  subjects        TeacherSubject[]
+  lessons         Lesson[]
+  supervisedClasses Class[]
+
+
+}
+
+// Student Model
+model Student {
+  id              String   @id @default(uuid())
+  userId          String   @unique
+  user            User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  admissionNumber String   @unique
+  gradeId         String
+  grade           Grade    @relation(fields: [gradeId], references: [id])
+  classId         String
+  class           Class    @relation(fields: [classId], references: [id])
+  parentId        String
+  parent          Parent   @relation(fields: [parentId], references: [id])
+  dateOfBirth     DateTime
+  admissionDate   DateTime @default(now())
+
+  attendance      Attendance[]
+  results         Result[]
+
+
+}
+
+// Parent Model
+model Parent {
+  id           String  @id @default(uuid())
+  userId       String  @unique
+  user         User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  occupation   String?
+  relationship String? // Father, Mother, Guardian
+
+  children     Student[]
+
+ 
+}
+
+// Grade Model
+model Grade {
+  id        String   @id @default(uuid())
+  name      String   @unique // e.g., "Grade 1", "Grade 2", etc.
+  level     Int      @unique // 1, 2, 3, etc.
+  createdAt DateTime @default(now())
+
+  classes   Class[]
+  students  Student[]
+
+}
+
+// Class Model
+model Class {
+  id            String   @id @default(uuid())
+  name          String   // e.g., "1A", "1B", "2A"
+  gradeId       String
+  grade         Grade    @relation(fields: [gradeId], references: [id])
+  supervisorId  String
+  supervisor    Teacher  @relation(fields: [supervisorId], references: [id])
+  capacity      Int      @default(30)
+  academicYear  String   // e.g., "2024-2025"
+  createdAt     DateTime @default(now())
+
+  students      Student[]
+  lessons       Lesson[]
+
+  @@unique([name, academicYear])
+  @@map("classes")
+}
+
+// Subject Model
+model Subject {
+  id          String   @id @default(uuid())
+  name        String   @unique
+  code        String   @unique
+  description String?
+  createdAt   DateTime @default(now())
+
+  teachers    TeacherSubject[]
+  lessons     Lesson[]
+
+  @@map("subjects")
+}
+
+// Teacher-Subject Relation (Many-to-Many)
+model TeacherSubject {
+  id         String   @id @default(uuid())
+  teacherId  String
+  teacher    Teacher  @relation(fields: [teacherId], references: [id], onDelete: Cascade)
+  subjectId  String
+  subject    Subject  @relation(fields: [subjectId], references: [id], onDelete: Cascade)
+  assignedAt DateTime @default(now())
+
+  @@unique([teacherId, subjectId])
+  @@map("teacher_subjects")
+}
+
+// Lesson Model
+model Lesson {
+  id         String   @id @default(uuid())
+  name       String
+  classId    String
+  class      Class    @relation(fields: [classId], references: [id])
+  subjectId  String
+  subject    Subject  @relation(fields: [subjectId], references: [id])
+  teacherId  String
+  teacher    Teacher  @relation(fields: [teacherId], references: [id])
+  date       DateTime
+  startTime  DateTime
+  endTime    DateTime
+  room       String?
+  createdAt  DateTime @default(now())
+
+  attendance Attendance[]
+  exams      Exam[]
+  assignments Assignment[]
+
+  @@map("lessons")
+}
+
+// Exam Model
+model Exam {
+  id          String   @id @default(uuid())
+  title       String
+  lessonId    String
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  date        DateTime
+  startTime   DateTime
+  endTime     DateTime
+  maxScore    Int
+  description String?
+  createdAt   DateTime @default(now())
+
+  results     Result[]
+
+  @@map("exams")
+}
+
+// Assignment Model
+model Assignment {
+  id          String   @id @default(uuid())
+  title       String
+  lessonId    String
+  lesson      Lesson   @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  dueDate     DateTime
+  maxScore    Int
+  description String?
+  createdAt   DateTime @default(now())
+
+  results     Result[]
+
+  @@map("assignments")
+}
+
+// Result Model (for both Exams and Assignments)
+model Result {
+  id           String    @id @default(uuid())
+  studentId    String
+  student      Student   @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  examId       String?
+  exam         Exam?     @relation(fields: [examId], references: [id], onDelete: Cascade)
+  assignmentId String?
+  assignment   Assignment? @relation(fields: [assignmentId], references: [id], onDelete: Cascade)
+  score        Int
+  feedback     String?
+  submittedAt  DateTime?
+  gradedAt     DateTime  @default(now())
+
+  @@map("results")
+}
+
+// Attendance Model
+model Attendance {
+  id        String          @id @default(uuid())
+  studentId String
+  student   Student         @relation(fields: [studentId], references: [id], onDelete: Cascade)
+  lessonId  String
+  lesson    Lesson          @relation(fields: [lessonId], references: [id], onDelete: Cascade)
+  date      DateTime
+  status    AttendanceStatus @default(PRESENT)
+  remarks   String?
+  createdAt DateTime        @default(now())
+
+  @@unique([studentId, lessonId])
+  @@map("attendance")
+}
+
+enum AttendanceStatus {
+  PRESENT
+  ABSENT
+  LATE
+  EXCUSED
+}
